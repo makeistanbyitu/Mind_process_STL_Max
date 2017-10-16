@@ -108,7 +108,7 @@ void draw() {
   //  rect(12, 50, 25, -(50-strength*50/200.0));
 }
 
-void simulate() {
+/*void simulate() {
   poorSignalEvent(int(random(200)));
   attentionEvent(int(random(100)));
   meditationEvent(int(random(100)));
@@ -116,7 +116,7 @@ void simulate() {
   int(random(20000)), int(random(20000)), int(random(20000)), 
   int(random(20000)), int(random(20000)) );
 }
-
+*/
 
 void exit() {
   println("Exiting");
