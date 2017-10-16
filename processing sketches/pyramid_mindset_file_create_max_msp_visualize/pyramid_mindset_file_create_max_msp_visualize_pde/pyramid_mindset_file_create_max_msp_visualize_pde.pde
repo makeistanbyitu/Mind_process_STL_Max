@@ -1,6 +1,7 @@
-import unlekker.modelbuilder.*; //<>// //<>//
+import unlekker.modelbuilder.*; //<>//
 import processing.serial.*;
 import pt.citar.diablu.processing.mindset.*;
+
 
 import oscP5.*;
 import netP5.*;
@@ -11,11 +12,10 @@ NetAddress myRemoteLocation; //address to be used to send osc data to max
 PWindow win;
 
 public void settings() {
-  size(800, 800, P3D);
+  size(800, 800);
 }
 
-
-
+MindSet mindSet; //object of mindset headset created
 UGeometry model; //Object for 3d model created
 
 int attention; //This value is non-zero when in use by a person
@@ -52,17 +52,17 @@ int gridSize; //3d model parameter
 ArrayList attSamples; //
 
 void setup() {
+  size(800, 800, P3D);
 
   win = new PWindow();
   attSamples = new ArrayList();
   baseProportion = 100;
   wallThickness = 7;
-  gridSize = 3; //needs to be set to whichever COM port the mindest is communicating to
+  gridSize = 3;
+  mindSet = new MindSet(this, "COM12"); //needs to be set to whichever COM port the mindest is communicating to
 
-  oscP5 = new OscP5(this,7400);
-  mindSet = new MindSet(this, "COM12");
-  myRemoteLocation = new NetAddress("127.0.0.1",7400);
-
+  oscP5 = new OscP5(this, 7400);
+  myRemoteLocation = new NetAddress("127.0.0.1", 7400);
 }
 
 void draw() {
@@ -71,57 +71,55 @@ void draw() {
   //print("ATTENTION 0  "); 
   //println(attention); //outputs attention value
 
-if(togglevar==true)
-{
-  if(attention==0)
+  if (togglevar==true)
   {
-  //togglevar=false;
-  currentvar=false; //data is not written to file when this variable is false
+    if (attention==0)
+    {
+      //togglevar=false;
+      currentvar=false; //data is not written to file when this variable is false
+    }
   }
-}
-if(attention!=0)
-{
-build(); //3d model is built
-if(togglevar==true)
-{
-createdatafile();
-}
-togglevar=false;
-currentvar=true; //data is written to file when this is true
- //else {return;}
-  // rotate the canvas when the mouse moves
-  rotateX(map(mouseY, 0, height, -PI/2, PI/2)); 
-  rotateY(map(mouseX, 0, width, -PI/2, PI/2));
-  // start in the middle
-  translate(width/2, height/2, 0);
-  model.draw(this);
-  OscMessage myMessage = new OscMessage(str(delta_mapped) + ", " + str(theta_mapped) + ", " + str(low_alpha_mapped) + ", " + str(high_alpha_mapped) + ", " + str(low_beta_mapped) + ", " + str(high_beta_mapped) + ", " + str(low_gamma_mapped) + ", " + str(mid_gamma_mapped) + ", " + str(attention_));//, , );
-  oscP5.send(myMessage, myRemoteLocation);
-  print("data to max: ");
-  println(str(delta_mapped) + ", " + str(theta_mapped) + ", " + str(low_alpha_mapped) + ", " + str(high_alpha_mapped) + ", " + str(low_beta_mapped) + ", " + str(high_beta_mapped) + ", " + str(low_gamma_mapped) + ", " + str(mid_gamma_mapped) + ", " + str(attention_));
+  if (attention!=0)
+  {
+    build(); //3d model is built
+    if (togglevar==true)
+    {
+      createdatafile();
+    }
+    togglevar=false;
+    currentvar=true; //data is written to file when this is true
+    //else {return;}
+    // rotate the canvas when the mouse moves
+    rotateX(map(mouseY, 0, height, -PI/2, PI/2)); 
+    rotateY(map(mouseX, 0, width, -PI/2, PI/2));
+    // start in the middle
+    translate(width/2, height/2, 0);
+    model.draw(this);
+    OscMessage myMessage = new OscMessage(str(delta_mapped) + ", " + str(theta_mapped) + ", " + str(low_alpha_mapped) + ", " + str(high_alpha_mapped) + ", " + str(low_beta_mapped) + ", " + str(high_beta_mapped) + ", " + str(low_gamma_mapped) + ", " + str(mid_gamma_mapped) + ", " + str(attention_));//, , );
+    oscP5.send(myMessage, myRemoteLocation);
+    print("data to max: ");
+    println(str(delta_mapped) + ", " + str(theta_mapped) + ", " + str(low_alpha_mapped) + ", " + str(high_alpha_mapped) + ", " + str(low_beta_mapped) + ", " + str(high_beta_mapped) + ", " + str(low_gamma_mapped) + ", " + str(mid_gamma_mapped) + ", " + str(attention_));
+  }
+
+  if (attention!=0)
+  {
+
+    return;
+  } else
+  {
+    if (currentvar==true)
+    {
+
+      togglevar=true; 
+      model.writeSTL(this, fname + ".stl");
+      println("STL written");
+      output.flush(); // Writes the remaining data to the file
+      output.close(); // Finishes the file
+    }
+  }
 }
 
-  if(attention!=0)
-{
- 
-return;
-  }
-else
-  {
-  if(currentvar==true)
-  {
-    
-  togglevar=true; 
-  model.writeSTL(this, fname + ".stl");
-    println("STL written");
-    output.flush(); // Writes the remaining data to the file
-    output.close(); // Finishes the file
-  }
-}
 
-}
- 
-  
 
 //Function that is called by build() function
 void drawPyramid(int pyrSize, float peakAngle) {  
@@ -177,7 +175,7 @@ void build() {
   model = new UGeometry();
   for (int x = 0; x < gridSize; x++) {
     for (int y = 0; y < gridSize; y++) {
-   
+
       //values for delta, theta, alpha and gamma is being passed to the 3d model script here through the global variables created i.e. delta_ etc.
       float[] peakAngle = {(20+delta_mapped/10), (20+theta_mapped/10), (20+low_alpha_mapped/10), (20+high_alpha_mapped/10), (20+low_beta_mapped/10), (20+high_beta_mapped/10), (20+low_gamma_mapped/10), (20+mid_gamma_mapped/10), (20+attention_)};//random(25, 65); // steepness of the pyramd
       model.translate(gridOffset(x), gridOffset(y), 0);
@@ -190,7 +188,7 @@ void build() {
 }
 
 public void keyPressed() {
-    exit(); // Stops the program 
+  exit(); // Stops the program
 }
 
 
@@ -213,50 +211,49 @@ public void eegEvent(int delta, int theta, int low_alpha,
   println(mid_gamma);
   print(", ");
 
-if(attention!=0 && currentvar==true){
-  output.print(day()+ "." + month()+ "." +year()+ "_"+ hour()+ "." + minute()+ "." + second() + "\t"); //prints time and date in column 1 of the csv file
-  output.print(delta + "\t");
-  output.print(theta + "\t");
-  output.print(low_alpha + "\t");
-  output.print(high_alpha + "\t");
-  output.print(low_beta + "\t");
-  output.print(high_beta + "\t");
-  output.print(low_gamma + "\t");
-  output.print(mid_gamma + "\t");
-  output.println(attention_);
-  
-  
-  //stores the values in global variables
-delta_=delta;
-theta_=theta;
-low_alpha_=low_alpha;
-high_alpha_=high_alpha;
-low_beta_=low_beta;
-high_beta_=high_beta;
-low_gamma_=low_gamma;
-mid_gamma_=mid_gamma;
+  if (attention!=0 && currentvar==true) {
+    output.print(day()+ "." + month()+ "." +year()+ "_"+ hour()+ "." + minute()+ "." + second() + "\t"); //prints time and date in column 1 of the csv file
+    output.print(delta + "\t");
+    output.print(theta + "\t");
+    output.print(low_alpha + "\t");
+    output.print(high_alpha + "\t");
+    output.print(low_beta + "\t");
+    output.print(high_beta + "\t");
+    output.print(low_gamma + "\t");
+    output.print(mid_gamma + "\t");
+    output.println(attention_);
+
+
+    //stores the values in global variables
+    delta_=delta;
+    theta_=theta;
+    low_alpha_=low_alpha;
+    high_alpha_=high_alpha;
+    low_beta_=low_beta;
+    high_beta_=high_beta;
+    low_gamma_=low_gamma;
+    mid_gamma_=mid_gamma;
 
 
 
-//mapped values to be used for 3d model
-delta_mapped=(map(float(delta), 150,3600000,0,1000));
-delta_mapped=upperlimit(delta_mapped);
-theta_mapped=(map(float(theta), 150,1700000,0,1000));
-theta_mapped=upperlimit(theta_mapped);
-low_alpha_mapped=(map(float(low_alpha), 100,690000,0,1000));
-low_alpha_mapped=upperlimit(low_alpha_mapped);
-high_alpha_mapped=(map(float(high_alpha), 100,590000,0,1000));
-high_alpha_mapped=upperlimit(high_alpha_mapped);
-low_beta_mapped=(map(float(low_beta), 100,420000,0,1000));
-low_beta_mapped=upperlimit(low_beta_mapped);
-high_beta_mapped=(map(float(high_beta), 100,760000,0,1000));
-high_beta_mapped=upperlimit(high_beta_mapped);
-low_gamma_mapped=(map(float(low_gamma), 100,510000,0,1000));
-low_gamma_mapped=upperlimit(low_gamma_mapped);
-mid_gamma_mapped=(map(float(mid_gamma), 150,2100000,0,1000));
-mid_gamma_mapped=upperlimit(mid_gamma_mapped);
-
-}
+    //mapped values to be used for 3d model
+    delta_mapped=(map(float(delta), 150, 3600000, 0, 1000));
+    delta_mapped=upperlimit(delta_mapped);
+    theta_mapped=(map(float(theta), 150, 1700000, 0, 1000));
+    theta_mapped=upperlimit(theta_mapped);
+    low_alpha_mapped=(map(float(low_alpha), 100, 690000, 0, 1000));
+    low_alpha_mapped=upperlimit(low_alpha_mapped);
+    high_alpha_mapped=(map(float(high_alpha), 100, 590000, 0, 1000));
+    high_alpha_mapped=upperlimit(high_alpha_mapped);
+    low_beta_mapped=(map(float(low_beta), 100, 420000, 0, 1000));
+    low_beta_mapped=upperlimit(low_beta_mapped);
+    high_beta_mapped=(map(float(high_beta), 100, 760000, 0, 1000));
+    high_beta_mapped=upperlimit(high_beta_mapped);
+    low_gamma_mapped=(map(float(low_gamma), 100, 510000, 0, 1000));
+    low_gamma_mapped=upperlimit(low_gamma_mapped);
+    mid_gamma_mapped=(map(float(mid_gamma), 150, 2100000, 0, 1000));
+    mid_gamma_mapped=upperlimit(mid_gamma_mapped);
+  }
 } 
 
 public void attentionEvent(int attentionLevel) {
@@ -274,7 +271,7 @@ public void attentionEvent(int attentionLevel) {
 //this function creates new csv file
 public void createdatafile()
 {
-fname= (day()+ "." + month()+ "." +year()+ "_"+ hour()+ "." + minute()+ "." + second());
+  fname= (day()+ "." + month()+ "." +year()+ "_"+ hour()+ "." + minute()+ "." + second());
   output = createWriter(fname + ".tsv");
   output.print("date_time" + "\t");
   output.print("delta" + "\t");
@@ -289,21 +286,23 @@ fname= (day()+ "." + month()+ "." +year()+ "_"+ hour()+ "." + minute()+ "." + se
 }
 /*
 public float thresholding(float n_val)
-
-{
-if(n_val<0.2)
-{
-n_val=n_val*2;
-}
-else if(n_val>0.8)
-{
-}
-return n_val;
-}
-*/
+ 
+ {
+ if(n_val<0.2)
+ {
+ n_val=n_val*2;
+ }
+ else if(n_val>0.8)
+ {
+ }
+ return n_val;
+ }
+ */
 public float upperlimit(float releventa)
 {
-if(releventa>1000)
-{releventa=1200;}
-return releventa;
+  if (releventa>1000)
+  {
+    releventa=1200;
+  }
+  return releventa;
 }
