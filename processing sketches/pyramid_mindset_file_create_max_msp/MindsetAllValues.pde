@@ -68,6 +68,8 @@ void draw() {
   highBetaWidget.add(high_beta_);
   lowGammaWidget.add(low_gamma_);
   midGammaWidget.add(mid_gamma_);
+  attentionWidget.add(attention_);
+  meditationWidget.add(meditation_);
 }
   int h = height/10;
   text("Delta", width/2-80, 10+h/2);
@@ -128,9 +130,9 @@ public void poorSignalEvent(int sig) {
   signalWidget.add(200-sig);
 }
 
-public void attentionEvent(int attentionLevel) {
-  attentionWidget.add(attentionLevel);
-}
+//public void attentionEvent(int attentionLevel) {
+  
+//}
 
 
 public void meditationEvent(int meditationLevel) {

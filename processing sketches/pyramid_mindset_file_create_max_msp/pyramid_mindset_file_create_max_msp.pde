@@ -19,6 +19,7 @@ public void settings() {
 UGeometry model; //Object for 3d model created
 
 int attention; //This value is non-zero when in use by a person
+int meditation;
 int numSamples = 60; //takes in 60 samples from mindwave before displaying
 boolean togglevar=true; //variable to initiate file creation only when headset is put on
 boolean currentvar=true; //variable's value is checked before the headset data starts to log
@@ -33,6 +34,7 @@ int high_beta_; //variable where value of high_beta from the eegEvent is saved
 int low_gamma_; //variable where value of low_gamma from the eegEvent is saved
 int mid_gamma_; //variable where value of mid_gamma from the eegEvent is saved
 int attention_;
+int meditation_;
 
 
 float delta_mapped; //mapped value of delta to be used for 3d model creation
@@ -49,7 +51,7 @@ PrintWriter output; //output file instance created for the csv file
 int baseProportion;//3d model parameter
 int wallThickness; //3d model parameter
 int gridSize; //3d model parameter
-ArrayList attSamples; //
+ArrayList attSamples, medSamples; //
 
 void setup() {
 
@@ -268,6 +270,18 @@ public void attentionEvent(int attentionLevel) {
   attention_=attention;
   if (attSamples.size() > numSamples) {
     attSamples.remove(0);
+  }
+}
+
+public void meditationEvent(int meditationLevel) {
+  //println("Attention Level: " + attentionLevel);
+  attention = meditationLevel;//This variable was created to be used in other parts of the code to detect if attention value was zero or not
+  medSamples.add(new Integer(meditation));
+  //print("ATTENTION");
+  //println(attention);
+  meditation_=meditation;
+  if (medSamples.size() > numSamples) {
+    medSamples.remove(0);
   }
 }
 
