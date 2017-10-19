@@ -13,7 +13,6 @@ PWindow win;
 
 public void settings() {
   size(800, 800, P3D);
-
 }
 
 
@@ -61,10 +60,10 @@ void setup() {
   attSamples = new ArrayList();
   baseProportion = 100;
   wallThickness = 7;
-  gridSize = 3;
+  gridSize = 3; //needs to be set to whichever COM port the mindest is communicating to
 
   oscP5 = new OscP5(this,7400);
-  mindSet = new MindSet(this, "COM17"); //needs to be set to whichever COM port the mindest is communicating to
+  mindSet = new MindSet(this, "COM12");
   myRemoteLocation = new NetAddress("127.0.0.1",7400);
 
 }
@@ -72,15 +71,6 @@ void setup() {
 void draw() {
   background(0);
   fill(255);
-    text(delta_mapped, 600,600);
-    text(theta_mapped, 600,620);
-    text(low_alpha_mapped, 600,640);
-    text(high_alpha_mapped, 600,660);
-    text(low_beta_mapped, 600,680);
-    text(high_beta_mapped, 600,700);
-    text(low_gamma_mapped, 600,720);
-    text(mid_gamma_mapped, 600,740);
-    text(attention_, 600,760);
   //print("ATTENTION 0  "); 
   //println(attention); //outputs attention value
 
@@ -192,7 +182,7 @@ void build() {
     for (int y = 0; y < gridSize; y++) {
    
       //values for delta, theta, alpha and gamma is being passed to the 3d model script here through the global variables created i.e. delta_ etc.
-      float[] peakAngle = {((delta_mapped*.07)+10), ((theta_mapped*.07)+10), ((low_alpha_mapped*.07)+10), ((high_alpha_mapped*.07)+10), ((low_beta_mapped*.07)+10), ((high_beta_mapped*.07)+10), ((low_gamma_mapped*.07)+10), ((mid_gamma_mapped*.07)+10), ((attention_+10))};//random(25, 65); // steepness of the pyramd
+      float[] peakAngle = {(20+delta_mapped/10), (20+theta_mapped/10), (20+low_alpha_mapped/10), (20+high_alpha_mapped/10), (20+low_beta_mapped/10), (20+high_beta_mapped/10), (20+low_gamma_mapped/10), (20+mid_gamma_mapped/10), (20+attention_)};//random(25, 65); // steepness of the pyramd
       model.translate(gridOffset(x), gridOffset(y), 0);
       drawPyramid(baseProportion, peakAngle[x+y]); // outer pyramid
       drawPyramid(baseProportion - (wallThickness * 2), peakAngle[x+y]); // inner
@@ -240,7 +230,14 @@ if(attention!=0 && currentvar==true){
   
   
   //stores the values in global variables
-
+delta_=delta;
+theta_=theta;
+low_alpha_=low_alpha;
+high_alpha_=high_alpha;
+low_beta_=low_beta;
+high_beta_=high_beta;
+low_gamma_=low_gamma;
+mid_gamma_=mid_gamma;
 
 
 
@@ -262,15 +259,6 @@ low_gamma_mapped=upperlimit(low_gamma_mapped);
 mid_gamma_mapped=(map(float(mid_gamma), 150,2100000,0,1000));
 mid_gamma_mapped=upperlimit(mid_gamma_mapped);
 
-
-delta_=delta;
-theta_=theta;
-low_alpha_=low_alpha;
-high_alpha_=high_alpha;
-low_beta_=low_beta;
-high_beta_=high_beta;
-low_gamma_=low_gamma;
-mid_gamma_=mid_gamma;
 }
 } 
 
@@ -331,6 +319,6 @@ return n_val;
 public float upperlimit(float releventa)
 {
 if(releventa>1000)
-{releventa=1000;}
+{releventa=1200;}
 return releventa;
 }

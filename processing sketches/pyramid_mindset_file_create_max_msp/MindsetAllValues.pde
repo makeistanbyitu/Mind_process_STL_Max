@@ -11,7 +11,7 @@ class PWindow extends PApplet {
   }
 
  void settings() {
-    size(800, 600);
+    size(800, 800);
   }
 SampleWidget attentionWidget;
 SampleWidget meditationWidget;
@@ -30,18 +30,18 @@ void setup() {
 
  //mindSet = new MindSet(this, "COM12");
 
-  attentionWidget = new SampleWidget(100, false, 100);
+  attentionWidget = new SampleWidget(400, false, 100);
   meditationWidget = new SampleWidget(100, false, 100);
   signalWidget = new SampleWidget(50, false, 200);
 
-  deltaWidget = new SampleWidget(200, true, 0);
-  thetaWidget = new SampleWidget(200, true, 0);
-  lowAlphaWidget = new SampleWidget(200, true, 0);
-  highAlphaWidget = new SampleWidget(200, true, 0);
-  lowBetaWidget = new SampleWidget(200, true, 0);
-  highBetaWidget = new SampleWidget(200, true, 0);
-  lowGammaWidget = new SampleWidget(200, true, 0);
-  midGammaWidget = new SampleWidget(200, true, 0);
+  deltaWidget = new SampleWidget(400, true, 0);
+  thetaWidget = new SampleWidget(400, true, 0);
+  lowAlphaWidget = new SampleWidget(400, true, 0);
+  highAlphaWidget = new SampleWidget(400, true, 0);
+  lowBetaWidget = new SampleWidget(400, true, 0);
+  highBetaWidget = new SampleWidget(400, true, 0);
+  lowGammaWidget = new SampleWidget(400, true, 0);
+  midGammaWidget = new SampleWidget(400, true, 0);
 }
 
 
@@ -50,14 +50,14 @@ void draw() {
 
   //simulate();
 
-  text("Attention Level", 10, 10);
-  attentionWidget.draw(10, 10+20, 200, 150);
+  //text("Attention Level", 10, 10);
+  //attentionWidget.draw(10, 10+20, 200, 150);
 
-  text("Meditation Level", 10, 200);
-  meditationWidget.draw(10, 200+20, 200, 150);
+//  text("Meditation Level", 10, 200);
+  //meditationWidget.draw(10, 200+20, 200, 150);
 
-  text("Signal quality", 10, height-10-20-100);
-  signalWidget.draw(10, height-100-10, 200, 100);
+  //text("Signal quality", 10, height-10-20-100);
+ // signalWidget.draw(10, height-100-10, 200, 100);
 
 {
   deltaWidget.add(delta_);
@@ -72,29 +72,32 @@ void draw() {
   meditationWidget.add(meditation_);
 }
   int h = height/10;
-  text("Delta", width/2-80, 10+h/2);
-  deltaWidget.draw(width/2, 10, width/2, h);
+  text("Delta", width/100, 10+h/2);
+  deltaWidget.draw(width/10, 10, (width-(width/10)), height/12);
 
-  text("Theta", width/2-80, 10+(h+10) + h/2);
-  thetaWidget.draw(width/2, 10+(h+10), width/2, height/10);
+  text("Theta", width/100, 10+(h+10) + h/2);
+  thetaWidget.draw(width/10, 10+(h+10), (width-(width/10)), height/12);
 
-  text("Low alpha", width/2-80, 10+(h+10)*2 + h/2);
-  lowAlphaWidget.draw(width/2, 10+(h+10)*2, width/2, height/10);
+  text("Low alpha", width/100, 10+(h+10)*2 + h/2);
+  lowAlphaWidget.draw(width/10, 10+(h+10)*2, (width-(width/10)), height/12);
 
-  text("High alpha", width/2-80, 10+(h+10)*3 + h/2);
-  highAlphaWidget.draw(width/2, 10+(h+10)*3, width/2, height/10);
+  text("High alpha", width/100, 10+(h+10)*3 + h/2);
+  highAlphaWidget.draw(width/10, 10+(h+10)*3, (width-(width/10)), height/12);
 
-  text("Low beta", width/2-80, 10+(h+10)*4 + h/2);
-  lowBetaWidget.draw(width/2, 10+(h+10)*4, width/2, height/10);
+  text("Low beta", width/100, 10+(h+10)*4 + h/2);
+  lowBetaWidget.draw(width/10, 10+(h+10)*4, (width-(width/10)), height/12);
 
-  text("High beta", width/2-80, 10+(h+10)*5 + h/2);
-  highBetaWidget.draw(width/2, 10+(h+10)*5, width/2, height/10);  
+  text("High beta", width/100, 10+(h+10)*5 + h/2);
+  highBetaWidget.draw(width/10, 10+(h+10)*5, (width-(width/10)), height/12);  
 
-  text("Low gamma", width/2-80, 10+(h+10)*6 + h/2);
-  lowGammaWidget.draw(width/2, 10+(h+10)*6, width/2, height/10);    
+  text("Low gamma", width/100, 10+(h+10)*6 + h/2);
+  lowGammaWidget.draw(width/10, 10+(h+10)*6, (width-(width/10)), height/12);    
 
-  text("Mid gamma", width/2-80, 10+(h+10)*7 + h/2);
-  midGammaWidget.draw(width/2, 10+(h+10)*7, width/2, height/10);    
+  text("Mid gamma", width/100, 10+(h+10)*7 + h/2);
+  midGammaWidget.draw(width/10, 10+(h+10)*7, (width-(width/10)), height/12);
+  
+  text("Attention", width/100, 10+(h+10)*8 + h/2);
+  attentionWidget.draw(width/10, 10+(h+10)*8, (width-(width/10)), height/12);
 
   //  
   //  fill(255, 0, 0, 100);
