@@ -79,7 +79,7 @@ void setup() {
   win = new PWindow();
   attSamples = new ArrayList();
   baseProportion = 100;
-  wallThickness = 7;
+  wallThickness = 20;
   gridSize = 3;
 
   oscP5 = new OscP5(this,7400);
@@ -127,7 +127,11 @@ currentvar=true; //data is written to file when this is true
   // start in the middle
   translate(width/2, height/2, 0);
   model.draw(this);
-  OscMessage myMessage = new OscMessage(str(delta_mapped) + ", " + str(theta_mapped) + ", " + str(low_alpha_mapped) + ", " + str(high_alpha_mapped) + ", " + str(low_beta_mapped) + ", " + str(high_beta_mapped) + ", " + str(low_gamma_mapped) + ", " + str(mid_gamma_mapped) + ", " + str(attention_));//, , );
+  //Data is being sent to Max in the following instruction
+ //Use either one of the following two instructions at a time for sending data to max instructions
+   OscMessage myMessage = new OscMessage(str(delta_mapped) + ", " + str(theta_mapped) + ", " + str(low_alpha_mapped) + ", " + str(high_alpha_mapped) + ", " + str(low_beta_mapped) + ", " + str(high_beta_mapped) + ", " + str(low_gamma_mapped) + ", " + str(mid_gamma_mapped) + ", " + str(attention_));//, , ); 
+  //OscMessage myMessage = new OscMessage(str((float)delta_ave) + ", " + str((float)theta_ave) + ", " + str((float)low_alpha_ave) + ", " + str((float)high_alpha_ave) + ", " + str((float)low_beta_ave) + ", " + str((float)high_beta_ave) + ", " + str((float)low_gamma_ave) + ", " + str((float)mid_gamma_ave) + ", " + str((float)attention_ave));//, , );
+  
   oscP5.send(myMessage, myRemoteLocation);
   print("data to max: ");
   println(str(delta_mapped) + ", " + str(theta_mapped) + ", " + str(low_alpha_mapped) + ", " + str(high_alpha_mapped) + ", " + str(low_beta_mapped) + ", " + str(high_beta_mapped) + ", " + str(low_gamma_mapped) + ", " + str(mid_gamma_mapped) + ", " + str(attention_));
@@ -148,6 +152,16 @@ else
     println("STL written");
     output.flush(); // Writes the remaining data to the file
     output.close(); // Finishes the file
+    sum_of_delta = 0;
+sum_of_theta = 0;
+sum_of_low_alpha = 0;
+sum_of_high_alpha = 0;
+sum_of_low_beta = 0;
+sum_of_high_beta = 0;
+sum_of_low_gamma = 0;
+sum_of_mid_gamma = 0;
+sum_of_attention = 0;
+count_of_all=0;
   }
 }
 
@@ -211,7 +225,7 @@ void build() {
     for (int y = 0; y < gridSize; y++) {
    
       //values for delta, theta, alpha and gamma is being passed to the 3d model script here through the global variables created i.e. delta_ etc.
-      float[] peakAngle = {(((float)delta_ave)*0.4), (((float)theta_ave)*0.5), (((float)low_alpha_ave)*0.9), (((float)high_alpha_ave)*0.9), (((float)low_beta_ave)*0.9), (((float)high_beta_ave)*0.9), (((float)low_gamma_ave)*0.9), (((float)mid_gamma_ave)*0.6), (((float)attention_ave))};//random(25, 65); // steepness of the pyramd
+      float[] peakAngle = {(((float)delta_ave)*0.2), (((float)theta_ave)*0.2), (((float)low_alpha_ave)*0.5), (((float)high_alpha_ave)*0.5), (((float)low_beta_ave)*0.5), (((float)high_beta_ave)*0.5), (((float)low_gamma_ave)*0.5), (((float)mid_gamma_ave)*0.2), (((float)attention_ave))};//random(25, 65); // steepness of the pyramd
       model.translate(gridOffset(x), gridOffset(y), 0);
       drawPyramid(baseProportion, peakAngle[x+y]); // outer pyramid
       drawPyramid(baseProportion - (wallThickness * 2), peakAngle[x+y]); // inner
@@ -276,21 +290,21 @@ if(attention!=0 && currentvar==true){
 
 
 //mapped values to be used for 3d model
-delta_mapped=(map(float(delta), 150,3600000,0,1000));
+delta_mapped=(map(float(delta), 150,4600000,0,1000));
 delta_mapped=upperlimit(delta_mapped);
-theta_mapped=(map(float(theta), 150,1700000,0,1000));
+theta_mapped=(map(float(theta), 150,2200000,0,1000));
 theta_mapped=upperlimit(theta_mapped);
-low_alpha_mapped=(map(float(low_alpha), 100,690000,0,1000));
+low_alpha_mapped=(map(float(low_alpha), 100,740000,0,1000));
 low_alpha_mapped=upperlimit(low_alpha_mapped);
-high_alpha_mapped=(map(float(high_alpha), 100,590000,0,1000));
+high_alpha_mapped=(map(float(high_alpha), 100,640000,0,1000));
 high_alpha_mapped=upperlimit(high_alpha_mapped);
-low_beta_mapped=(map(float(low_beta), 100,420000,0,1000));
+low_beta_mapped=(map(float(low_beta), 100,470000,0,1000));
 low_beta_mapped=upperlimit(low_beta_mapped);
-high_beta_mapped=(map(float(high_beta), 100,760000,0,1000));
+high_beta_mapped=(map(float(high_beta), 100,810000,0,1000));
 high_beta_mapped=upperlimit(high_beta_mapped);
-low_gamma_mapped=(map(float(low_gamma), 100,510000,0,1000));
+low_gamma_mapped=(map(float(low_gamma), 100,560000,0,1000));
 low_gamma_mapped=upperlimit(low_gamma_mapped);
-mid_gamma_mapped=(map(float(mid_gamma), 150,2100000,0,1000));
+mid_gamma_mapped=(map(float(mid_gamma), 150,2600000,0,1000));
 mid_gamma_mapped=upperlimit(mid_gamma_mapped);
 
 sum_of_delta += delta_mapped;
