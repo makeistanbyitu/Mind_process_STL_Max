@@ -58,6 +58,15 @@ float high_beta_mapped; //mapped value of high_beta to be used for 3d model crea
 float low_gamma_mapped; //mapped value of low_gamma to be used for 3d model creation
 float mid_gamma_mapped; //mapped value of mid_gamma to be used for 3d model creation
 
+double delta_ave; //mapped value of delta to be used for 3d model creation
+double theta_ave; //mapped value of theta to be used for 3d model creation
+double low_alpha_ave; //mapped value of low_alpha to be used for 3d model creation
+double high_alpha_ave; //mapped value of high_alpha to be used for 3d model creation
+double low_beta_ave; //mapped value of low_beta to be used for 3d model creation
+double high_beta_ave; //mapped value of high_beta to be used for 3d model creation
+double low_gamma_ave; //mapped value of low_gamma to be used for 3d model creation
+double mid_gamma_ave; //mapped value of mid_gamma to be used for 3d model creation
+double attention_ave; 
 
 PrintWriter output; //output file instance created for the csv file
 int baseProportion;//3d model parameter
@@ -248,15 +257,15 @@ if(attention!=0 && currentvar==true){
   output.print(mid_gamma + "\t");
   output.println(attention_);
   
-  output.print(sum_of_delta/count_of_all + "\t");
-  output.print(sum_of_theta/count_of_all + "\t");
-  output.print(sum_of_low_alpha/count_of_all + "\t");
-  output.print(sum_of_high_alpha/count_of_all + "\t");
-  output.print(sum_of_low_beta/count_of_all + "\t");
-  output.print(sum_of_high_beta/count_of_all + "\t");
-  output.print(sum_of_low_gamma/count_of_all + "\t");
-  output.print(sum_of_mid_gamma/count_of_all + "\t");
-  output.println(sum_of_attention/count_of_all);
+  output.print(delta_ave + "\t");
+  output.print(theta_ave + "\t");
+  output.print(low_alpha_ave + "\t");
+  output.print(high_alpha_ave + "\t");
+  output.print(low_beta_ave + "\t");
+  output.print(high_beta_ave + "\t");
+  output.print(low_gamma_ave + "\t");
+  output.print(mid_gamma_ave + "\t");
+  output.println(attention_ave);
   
   
   
@@ -303,6 +312,15 @@ low_beta_=low_beta;
 high_beta_=high_beta;
 low_gamma_=low_gamma;
 mid_gamma_=mid_gamma;
+
+delta_ave=(sum_of_delta/count_of_all);
+theta_ave=(sum_of_theta/count_of_all);
+low_alpha_ave=(sum_of_low_alpha/count_of_all);
+high_alpha_ave=(sum_of_high_alpha/count_of_all);
+low_beta_ave=(sum_of_low_beta/count_of_all);
+high_beta_ave=(sum_of_high_beta/count_of_all);
+low_gamma_ave=(sum_of_low_gamma/count_of_all);
+mid_gamma_ave=(sum_of_mid_gamma/count_of_all);
 }
 } 
 
@@ -314,6 +332,7 @@ public void attentionEvent(int attentionLevel) {
   //println(attention);
   attention_=attention;
   sum_of_attention+=attention_;
+  attention_ave=sum_of_attention/count_of_all;
   if (attSamples.size() > numSamples) {
     attSamples.remove(0);
   }
@@ -354,7 +373,7 @@ fname= (day()+ "." + month()+ "." +year()+ "_"+ hour()+ "." + minute()+ "." + se
   output.print("low_beta_ave" + "\t");
   output.print("high_beta_ave" + "\t");
   output.print("low_gamma_ave" + "\t");
-  output.println("mid_gamma_ave" + "\t");
+  output.print("mid_gamma_ave" + "\t");
   output.println("attention_ave");
   
 }
