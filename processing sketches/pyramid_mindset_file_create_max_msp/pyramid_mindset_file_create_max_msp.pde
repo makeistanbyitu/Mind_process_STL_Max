@@ -91,15 +91,15 @@ void setup() {
 void draw() {
   background(0);
   fill(255);
-    text(delta_mapped, 600,600);
-    text(theta_mapped, 600,620);
-    text(low_alpha_mapped, 600,640);
-    text(high_alpha_mapped, 600,660);
-    text(low_beta_mapped, 600,680);
-    text(high_beta_mapped, 600,700);
-    text(low_gamma_mapped, 600,720);
-    text(mid_gamma_mapped, 600,740);
-    text(attention_, 600,760);
+    text((float)delta_ave, 600,600);
+    text((float)theta_ave, 600,620);
+    text((float)low_alpha_ave, 600,640);
+    text((float)high_alpha_ave, 600,660);
+    text((float)low_beta_ave, 600,680);
+    text((float)high_beta_ave, 600,700);
+    text((float)low_gamma_ave, 600,720);
+    text((float)mid_gamma_ave, 600,740);
+    text((float)attention_ave, 600,760);
   //print("ATTENTION 0  "); 
   //println(attention); //outputs attention value
 
@@ -211,7 +211,7 @@ void build() {
     for (int y = 0; y < gridSize; y++) {
    
       //values for delta, theta, alpha and gamma is being passed to the 3d model script here through the global variables created i.e. delta_ etc.
-      float[] peakAngle = {((delta_mapped*.07)+10), ((theta_mapped*.07)+10), ((low_alpha_mapped*.07)+10), ((high_alpha_mapped*.07)+10), ((low_beta_mapped*.07)+10), ((high_beta_mapped*.07)+10), ((low_gamma_mapped*.07)+10), ((mid_gamma_mapped*.07)+10), ((attention_+10))};//random(25, 65); // steepness of the pyramd
+      float[] peakAngle = {(((float)delta_ave)*0.4), (((float)theta_ave)*0.5), (((float)low_alpha_ave)*0.9), (((float)high_alpha_ave)*0.9), (((float)low_beta_ave)*0.9), (((float)high_beta_ave)*0.9), (((float)low_gamma_ave)*0.9), (((float)mid_gamma_ave)*0.6), (((float)attention_ave))};//random(25, 65); // steepness of the pyramd
       model.translate(gridOffset(x), gridOffset(y), 0);
       drawPyramid(baseProportion, peakAngle[x+y]); // outer pyramid
       drawPyramid(baseProportion - (wallThickness * 2), peakAngle[x+y]); // inner
@@ -255,7 +255,7 @@ if(attention!=0 && currentvar==true){
   output.print(high_beta + "\t");
   output.print(low_gamma + "\t");
   output.print(mid_gamma + "\t");
-  output.println(attention_);
+  output.print(attention_);
   
   output.print(delta_ave + "\t");
   output.print(theta_ave + "\t");
