@@ -38,7 +38,17 @@ int mid_gamma_; //variable where value of mid_gamma from the eegEvent is saved
 int attention_;
 int meditation_;
 
+double sum_of_delta = 0;
+double sum_of_theta = 0;
+double sum_of_low_alpha = 0;
+double sum_of_high_alpha = 0;
+double sum_of_low_beta = 0;
+double sum_of_high_beta = 0;
+double sum_of_low_gamma = 0;
+double sum_of_mid_gamma = 0;
+double sum_of_attention = 0;
 
+int    count_of_all  = 0;
 float delta_mapped; //mapped value of delta to be used for 3d model creation
 float theta_mapped; //mapped value of theta to be used for 3d model creation
 float low_alpha_mapped; //mapped value of low_alpha to be used for 3d model creation
@@ -238,6 +248,18 @@ if(attention!=0 && currentvar==true){
   output.print(mid_gamma + "\t");
   output.println(attention_);
   
+  output.print(sum_of_delta/count_of_all + "\t");
+  output.print(sum_of_theta/count_of_all + "\t");
+  output.print(sum_of_low_alpha/count_of_all + "\t");
+  output.print(sum_of_high_alpha/count_of_all + "\t");
+  output.print(sum_of_low_beta/count_of_all + "\t");
+  output.print(sum_of_high_beta/count_of_all + "\t");
+  output.print(sum_of_low_gamma/count_of_all + "\t");
+  output.print(sum_of_mid_gamma/count_of_all + "\t");
+  output.println(sum_of_attention/count_of_all);
+  
+  
+  
   
   //stores the values in global variables
 
@@ -262,6 +284,16 @@ low_gamma_mapped=upperlimit(low_gamma_mapped);
 mid_gamma_mapped=(map(float(mid_gamma), 150,2100000,0,1000));
 mid_gamma_mapped=upperlimit(mid_gamma_mapped);
 
+sum_of_delta += delta_mapped;
+sum_of_theta += theta_mapped;
+sum_of_low_alpha += low_alpha_mapped;
+sum_of_high_alpha += high_alpha_mapped;
+sum_of_low_beta += low_beta_mapped;
+sum_of_high_beta += high_beta_mapped;
+sum_of_low_gamma += low_gamma_mapped;
+sum_of_mid_gamma += mid_gamma_mapped;
+
+count_of_all++;
 
 delta_=delta;
 theta_=theta;
@@ -281,6 +313,7 @@ public void attentionEvent(int attentionLevel) {
   //print("ATTENTION");
   //println(attention);
   attention_=attention;
+  sum_of_attention+=attention_;
   if (attSamples.size() > numSamples) {
     attSamples.remove(0);
   }
@@ -311,8 +344,19 @@ fname= (day()+ "." + month()+ "." +year()+ "_"+ hour()+ "." + minute()+ "." + se
   output.print("low_beta" + "\t");
   output.print("high_beta" + "\t");
   output.print("low_gamma" + "\t");
-  output.println("mid_gamma" + "\t");
-  output.println("attention");
+  output.print("mid_gamma" + "\t");
+  output.print("attention" + "\t");
+  
+  output.print("delta_ave" + "\t");
+  output.print("theta_ave" + "\t");
+  output.print("low_alpha_ave" + "\t");
+  output.print("high_alpha_ave" + "\t");
+  output.print("low_beta_ave" + "\t");
+  output.print("high_beta_ave" + "\t");
+  output.print("low_gamma_ave" + "\t");
+  output.println("mid_gamma_ave" + "\t");
+  output.println("attention_ave");
+  
 }
 /*
 public float thresholding(float n_val)
