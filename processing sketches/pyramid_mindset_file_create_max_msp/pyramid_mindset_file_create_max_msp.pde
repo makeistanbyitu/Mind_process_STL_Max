@@ -306,15 +306,38 @@ low_gamma_mapped=(map(float(low_gamma), 100,560000,0,1000));
 low_gamma_mapped=upperlimit(low_gamma_mapped);
 mid_gamma_mapped=(map(float(mid_gamma), 150,2600000,0,1000));
 mid_gamma_mapped=upperlimit(mid_gamma_mapped);
-
-sum_of_delta += delta_mapped;
-sum_of_theta += theta_mapped;
-sum_of_low_alpha += low_alpha_mapped;
-sum_of_high_alpha += high_alpha_mapped;
-sum_of_low_beta += low_beta_mapped;
-sum_of_high_beta += high_beta_mapped;
-sum_of_low_gamma += low_gamma_mapped;
-sum_of_mid_gamma += mid_gamma_mapped;
+if(delta_mapped-(sum_of_delta/count_of_all)<200)
+{sum_of_delta += delta_mapped;}
+else
+{sum_of_delta += 100;}
+if(theta_mapped-(sum_of_theta/count_of_all)<200)
+{sum_of_theta += theta_mapped;}
+else
+{sum_of_theta +=100;}
+if(low_alpha_mapped-(sum_of_low_alpha/count_of_all)<200)
+{sum_of_low_alpha += low_alpha_mapped;}
+else
+{sum_of_low_alpha +=100;}
+if(high_alpha_mapped-(sum_of_high_alpha/count_of_all)<200)
+{sum_of_high_alpha += high_alpha_mapped;}
+else
+{sum_of_high_alpha +=100;}
+if(low_beta_mapped-(sum_of_low_beta/count_of_all)<200)
+{sum_of_low_beta += low_beta_mapped;}
+else
+{sum_of_low_beta +=100;}
+if(high_beta_mapped-(sum_of_high_beta/count_of_all)<200)
+{sum_of_high_beta += high_beta_mapped;}
+else
+{sum_of_high_beta +=100;}
+if(low_gamma_mapped-(sum_of_low_gamma/count_of_all)<200)
+{sum_of_low_gamma += low_gamma_mapped;}
+else
+{sum_of_low_gamma +=100;}
+if(mid_gamma_mapped-(sum_of_mid_gamma/count_of_all)<200)
+{sum_of_mid_gamma += mid_gamma_mapped;}
+else
+{sum_of_mid_gamma +=100;}
 
 count_of_all++;
 
