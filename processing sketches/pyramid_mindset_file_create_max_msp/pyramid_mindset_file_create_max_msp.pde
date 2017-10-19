@@ -79,7 +79,7 @@ void setup() {
   win = new PWindow();
   attSamples = new ArrayList();
   baseProportion = 100;
-  wallThickness = 20;
+  wallThickness = 7;
   gridSize = 3;
 
   oscP5 = new OscP5(this,7400);
@@ -225,7 +225,7 @@ void build() {
     for (int y = 0; y < gridSize; y++) {
    
       //values for delta, theta, alpha and gamma is being passed to the 3d model script here through the global variables created i.e. delta_ etc.
-      float[] peakAngle = {(((float)delta_ave)*0.2), (((float)theta_ave)*0.2), (((float)low_alpha_ave)*0.5), (((float)high_alpha_ave)*0.5), (((float)low_beta_ave)*0.5), (((float)high_beta_ave)*0.5), (((float)low_gamma_ave)*0.5), (((float)mid_gamma_ave)*0.2), (((float)attention_ave))};//random(25, 65); // steepness of the pyramd
+      float[] peakAngle = {(((float)delta_ave)*0.5), (((float)theta_ave)*0.5), (((float)low_alpha_ave)*0.5), (((float)high_alpha_ave)*0.5), (((float)low_beta_ave)*0.5), (((float)high_beta_ave)*0.5), (((float)low_gamma_ave)*0.5), (((float)mid_gamma_ave)*0.5), (((float)attention_ave))};//random(25, 65); // steepness of the pyramd
       model.translate(gridOffset(x), gridOffset(y), 0);
       drawPyramid(baseProportion, peakAngle[x+y]); // outer pyramid
       drawPyramid(baseProportion - (wallThickness * 2), peakAngle[x+y]); // inner
@@ -306,38 +306,38 @@ low_gamma_mapped=(map(float(low_gamma), 100,560000,0,1000));
 low_gamma_mapped=upperlimit(low_gamma_mapped);
 mid_gamma_mapped=(map(float(mid_gamma), 150,2600000,0,1000));
 mid_gamma_mapped=upperlimit(mid_gamma_mapped);
-if(delta_mapped-(sum_of_delta/count_of_all)<200)
+if(delta_mapped-(sum_of_delta/count_of_all)<150)
 {sum_of_delta += delta_mapped;}
 else
-{sum_of_delta += 100;}
-if(theta_mapped-(sum_of_theta/count_of_all)<200)
+{sum_of_delta += 150;}
+if((theta_mapped-(sum_of_theta/count_of_all))<150)
 {sum_of_theta += theta_mapped;}
 else
-{sum_of_theta +=100;}
-if(low_alpha_mapped-(sum_of_low_alpha/count_of_all)<200)
+{sum_of_theta +=150;}
+if((low_alpha_mapped-(sum_of_low_alpha/count_of_all))<150)
 {sum_of_low_alpha += low_alpha_mapped;}
 else
-{sum_of_low_alpha +=100;}
-if(high_alpha_mapped-(sum_of_high_alpha/count_of_all)<200)
+{sum_of_low_alpha +=150;}
+if((high_alpha_mapped-(sum_of_high_alpha/count_of_all))<150)
 {sum_of_high_alpha += high_alpha_mapped;}
 else
-{sum_of_high_alpha +=100;}
-if(low_beta_mapped-(sum_of_low_beta/count_of_all)<200)
+{sum_of_high_alpha +=150;}
+if((low_beta_mapped-(sum_of_low_beta/count_of_all))<150)
 {sum_of_low_beta += low_beta_mapped;}
 else
-{sum_of_low_beta +=100;}
-if(high_beta_mapped-(sum_of_high_beta/count_of_all)<200)
+{sum_of_low_beta +=150;}
+if((high_beta_mapped-(sum_of_high_beta/count_of_all))<150)
 {sum_of_high_beta += high_beta_mapped;}
 else
-{sum_of_high_beta +=100;}
-if(low_gamma_mapped-(sum_of_low_gamma/count_of_all)<200)
+{sum_of_high_beta +=150;}
+if((low_gamma_mapped-(sum_of_low_gamma/count_of_all))<150)
 {sum_of_low_gamma += low_gamma_mapped;}
 else
-{sum_of_low_gamma +=100;}
-if(mid_gamma_mapped-(sum_of_mid_gamma/count_of_all)<200)
+{sum_of_low_gamma +=150;}
+if((mid_gamma_mapped-(sum_of_mid_gamma/count_of_all))<150)
 {sum_of_mid_gamma += mid_gamma_mapped;}
 else
-{sum_of_mid_gamma +=100;}
+{sum_of_mid_gamma +=150;}
 
 count_of_all++;
 
