@@ -149,6 +149,8 @@ else
     
   togglevar=true; 
   model.writeSTL(this, fname + ".stl");
+  OscMessage zeroMessage = new OscMessage(str(0) + ", " + str(0) + ", " + str(0) + ", " + str(0) + ", " + str(0) + ", " + str(0) + ", " + str(0) + ", " + str(0) + ", " + str(0));//, , );
+  oscP5.send(zeroMessage, myRemoteLocation);
     println("STL written");
     output.flush(); // Writes the remaining data to the file
     output.close(); // Finishes the file
